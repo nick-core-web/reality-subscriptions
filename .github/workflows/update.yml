@@ -34,11 +34,11 @@ jobs:
  
       - name: Filter Subs
         run: |
-          grep -Ei 'security=reality' raw_vless.txt | awk -F 'security[=]' -v IGNORECASE=1 'NF==2' > reality.txt || true
-          grep -Ei 'security=reality' raw_bl.txt | awk -F 'security[=]' -v IGNORECASE=1 'NF==2' > bl.txt || true
-          grep -Ei 'security=reality' raw_wl.txt | awk -F 'security[=]' -v IGNORECASE=1 'NF==2' > wl.txt || true
-          grep -Ei 'security=reality' raw_bypass.txt | awk -F 'security[=]' -v IGNORECASE=1 'NF==2' > bypass.txt || true
-
+          python3 -c "import sys, urllib.parse; [print(l) for l in sys.stdin.read().splitlines() if urllib.parse.parse_qs(urllib.parse.urlparse(l).query).get('security') == ['reality']]" < raw_vless.txt > reality.txt || true
+          python3 -c "import sys, urllib.parse; [print(l) for l in sys.stdin.read().splitlines() if urllib.parse.parse_qs(urllib.parse.urlparse(l).query).get('security') == ['reality']]" < raw_bl.txt > bl.txt || true
+          python3 -c "import sys, urllib.parse; [print(l) for l in sys.stdin.read().splitlines() if urllib.parse.parse_qs(urllib.parse.urlparse(l).query).get('security') == ['reality']]" < raw_wl.txt > wl.txt || true
+          python3 -c "import sys, urllib.parse; [print(l) for l in sys.stdin.read().splitlines() if urllib.parse.parse_qs(urllib.parse.urlparse(l).query).get('security') == ['reality']]" < raw_bypass.txt > bypass.txt || true
+          
           rm raw_vless.txt raw_bl.txt raw_wl.txt raw_bypass.txt
 
       - name: Commit and Push clean files
