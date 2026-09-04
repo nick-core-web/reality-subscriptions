@@ -39,7 +39,7 @@ jobs:
           grep -Ei 'security=reality' raw_wl.txt | awk -F 'security[=]' -v IGNORECASE=1 'NF==2' > wl.txt || true
           grep -Ei 'security=reality' raw_bypass.txt | awk -F 'security[=]' -v IGNORECASE=1 'NF==2' > bypass.txt || true
 
-          rm raw_z.txt raw_bl.txt raw_wl.txt raw_bypass.txt
+          rm raw_vless.txt raw_bl.txt raw_wl.txt raw_bypass.txt
 
       - name: Commit and Push clean files
         run: |
