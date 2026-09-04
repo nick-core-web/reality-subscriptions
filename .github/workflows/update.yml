@@ -1,0 +1,56 @@
+name: Automated Subscription Cleaner
+
+env:
+  SRC_1: ${{ secrets.VLESS }}
+  SRC_2: ${{ secrets.BL }}
+  SRC_3: ${{ secrets.WL }}
+  SRC_4: ${{ secrets.BYPASS }}
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update_and_clean:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install GNU Awk
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gawk
+
+      - name: Download (4 Sources)
+        run: |
+          curl -sL \
+            -o raw_vless.txt "$SRC_1" \
+            -o raw_bl.txt "$SRC_2" \
+            -o raw_wl.txt "$SRC_3" \
+            -o raw_bypass.txt "$SRC_4"
+ 
+      - name: Filter Subs
+        run: |
+          grep -Ei 'security=reality' raw_vless.txt | awk -F 'security[=]' -v IGNORECASE=1 'NF==2' > reality.txt || true
+          grep -Ei 'security=reality' raw_bl.txt | awk -F 'security[=]' -v IGNORECASE=1 'NF==2' > bl.txt || true
+          grep -Ei 'security=reality' raw_wl.txt | awk -F 'security[=]' -v IGNORECASE=1 'NF==2' > wl.txt || true
+          grep -Ei 'security=reality' raw_bypass.txt | awk -F 'security[=]' -v IGNORECASE=1 'NF==2' > bypass.txt || true
+
+          rm raw_z.txt raw_bl.txt raw_wl.txt raw_bypass.txt
+
+      - name: Commit and Push clean files
+        run: |
+          git config --global user.name "nick-core-web"
+          git config --global user.email "319255208+nick-core-web@users.noreply.github.com"
+          
+          git add .
+          
+          if ! git diff --cached --quiet; then
+            git commit -m "Update files"
+            git push
+          else
+            echo "No changes to commit"
+          fi
