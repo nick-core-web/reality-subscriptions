@@ -18,12 +18,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-
-      - name: Install GNU Awk
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gawk
-
+        
       - name: Download (4 Sources)
         run: |
           curl -sL \
