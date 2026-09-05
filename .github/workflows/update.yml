@@ -33,8 +33,34 @@ jobs:
           python3 -c "import sys, urllib.parse; [print(l) for l in sys.stdin.read().splitlines() if urllib.parse.parse_qs(urllib.parse.urlparse(l).query).get('security') == ['reality']]" < raw_bl.txt > bl.txt || true
           python3 -c "import sys, urllib.parse; [print(l) for l in sys.stdin.read().splitlines() if urllib.parse.parse_qs(urllib.parse.urlparse(l).query).get('security') == ['reality']]" < raw_wl.txt > wl.txt || true
           python3 -c "import sys, urllib.parse; [print(l) for l in sys.stdin.read().splitlines() if urllib.parse.parse_qs(urllib.parse.urlparse(l).query).get('security') == ['reality']]" < raw_bypass.txt > bypass.txt || true
-          
-          rm raw_vless.txt raw_bl.txt raw_wl.txt raw_bypass.txt
+      
+      - name: Create sanitized TLS and Reality files
+        run: |
+          mkdir -p scripts
+
+          python3 scripts/sanitize_vless.py \
+            raw_vless.txt \
+            vless_clean.txt
+
+          python3 scripts/sanitize_vless.py \
+            raw_bl.txt \
+            bl_clean.txt
+
+          python3 scripts/sanitize_vless.py \
+            raw_wl.txt \
+            wl_clean.txt
+
+          python3 scripts/sanitize_vless.py \
+            raw_bypass.txt \
+            bypass_clean.txt
+
+      - name: Remove raw subscriptions
+        run: |
+          rm -f \
+            raw_vless.txt \
+            raw_bl.txt \
+            raw_wl.txt \
+            raw_bypass.txt
 
       - name: Commit and Push clean files
         run: |
