@@ -29,6 +29,7 @@ jobs:
  
       - name: Filter Subs
         run: |
+          ‎python3 -c "import sys, urllib.parse; [print(urllib.parse.urlunparse(p._replace(query=urllib.parse.urlencode({k: v for k, v in urllib.parse.parse_qsl(p.query) if k.lower() in ['security', 'sni', 'flow', 'pbk', 'sid', 'spx', 'type', 'path', 'host', 'servicename']}, doseq=True)))) for l in sys.stdin.read().splitlines() for p in [urllib.parse.urlparse(l)] for q in [urllib.parse.parse_qs(p.query)] if q.get('security') in [['reality'], ['tls']]]" < raw_vless.txt > secure.txt || true
           python3 -c "import sys, urllib.parse; [print(l) for l in sys.stdin.read().splitlines() if urllib.parse.parse_qs(urllib.parse.urlparse(l).query).get('security') == ['reality']]" < raw_vless.txt > reality.txt || true
           python3 -c "import sys, urllib.parse; [print(l) for l in sys.stdin.read().splitlines() if urllib.parse.parse_qs(urllib.parse.urlparse(l).query).get('security') == ['reality']]" < raw_bl.txt > bl.txt || true
           python3 -c "import sys, urllib.parse; [print(l) for l in sys.stdin.read().splitlines() if urllib.parse.parse_qs(urllib.parse.urlparse(l).query).get('security') == ['reality']]" < raw_wl.txt > wl.txt || true
