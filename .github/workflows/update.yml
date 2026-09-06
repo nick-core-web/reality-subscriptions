@@ -33,6 +33,7 @@ jobs:
           python3 -c "import sys, urllib.parse; [print(l) for l in sys.stdin.read().splitlines() if urllib.parse.parse_qs(urllib.parse.urlparse(l).query).get('security') == ['reality']]" < raw_bl.txt > bl.txt || true
           python3 -c "import sys, urllib.parse; [print(l) for l in sys.stdin.read().splitlines() if urllib.parse.parse_qs(urllib.parse.urlparse(l).query).get('security') == ['reality']]" < raw_wl.txt > wl.txt || true
           python3 -c "import sys, urllib.parse; [print(l) for l in sys.stdin.read().splitlines() if urllib.parse.parse_qs(urllib.parse.urlparse(l).query).get('security') == ['reality']]" < raw_bypass.txt > bypass.txt || true
+          cat reality.txt bl.txt wl.txt bypass.txt > all_reality.txt
       
       - name: Create sanitized TLS and Reality files
         run: |
