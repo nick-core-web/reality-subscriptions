@@ -85,10 +85,18 @@ def parse_vless(line):
         if parsed.port is None:
             return None
 
-        pairs = parse_qsl(
+        raw_pairs = parse_qsl(
             parsed.query,
             keep_blank_values=False
         )
+
+        pairs = [
+            (
+                "security" if name.lower() == "security" else name,
+                value
+            )
+            for name, value in raw_pairs
+        ]
 
         return parsed, pairs
 
@@ -100,7 +108,7 @@ def get_security(pairs):
     values = [
         value.lower()
         for name, value in pairs
-        if name.lower() == "security"
+        if name == "security"
     ]
 
     if len(values) != 1:
@@ -119,7 +127,10 @@ def sanitize(parsed, pairs):
         return None
 
     filtered = [
-        (name, value)
+        (
+            name,
+            security if name == "security" else value
+        )
         for name, value in pairs
         if name in WHITELIST
     ]
