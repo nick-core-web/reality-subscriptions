@@ -54,7 +54,7 @@ jobs:
           python3 scripts/sanitize_vless.py \
             raw_bypass.txt \
             bypass_clean.txt
-          сat vless_clean.txt bl_clean.txt wl_clean.txt bypass_clean.txt > all_clean.txt
+          cat vless_clean.txt bl_clean.txt wl_clean.txt bypass_clean.txt > all_clean.txt
 
       - name: Remove raw subscriptions
         run: |
