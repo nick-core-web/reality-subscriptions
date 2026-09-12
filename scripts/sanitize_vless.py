@@ -46,7 +46,7 @@ OUTPUT_ORDER = [
 
 
 SUPPORTED_SECURITY = {
-    "tls"
+    "tls",
     "reality",
 }
 
