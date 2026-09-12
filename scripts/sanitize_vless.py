@@ -29,7 +29,6 @@ WHITELIST = {
     "congestion",
     "readBufferSize",
     "writeBufferSize",
-    "extra",
 }
 
 
@@ -57,51 +56,6 @@ OUTPUT_ORDER = [
     "congestion",
     "readBufferSize",
     "writeBufferSize",
-    "extra",
-]
-
-
-EXTRA_ORDER = [
-    "host",
-    "path",
-    "mode",
-    "headers",
-    "xPaddingBytes",
-    "xPaddingObfsMode",
-    "xPaddingKey",
-    "xPaddingHeader",
-    "xPaddingPlacement",
-    "xPaddingMethod",
-    "uplinkHTTPMethod",
-    "sessionIDPlacement",
-    "sessionIDKey",
-    "sessionIDTable",
-    "sessionIDLength",
-    "seqPlacement",
-    "seqKey",
-    "uplinkDataPlacement",
-    "uplinkDataKey",
-    "uplinkChunkSize",
-    "noGRPCHeader",
-    "noSSEHeader",
-    "scMaxEachPostBytes",
-    "scMinPostsIntervalMs",
-    "scMaxBufferedPosts",
-    "scStreamUpServerSecs",
-    "serverMaxHeaderBytes",
-    "xmux",
-    "downloadSettings",
-    "extra",
-]
-
-
-XMUX_ORDER = [
-    "maxConcurrency",
-    "maxConnections",
-    "cMaxReuseTimes",
-    "hMaxRequestTimes",
-    "hMaxReusableSecs",
-    "hKeepAlivePeriod",
 ]
 
 
@@ -109,54 +63,6 @@ SUPPORTED_SECURITY = {
     "tls",
     "reality",
 }
-
-
-def parse_extra(value):
-    try:
-        extra = json.loads(value)
-    except (TypeError, ValueError, json.JSONDecodeError):
-        return None
-
-    if not isinstance(extra, dict):
-        return None
-
-    result = {}
-
-    for key in EXTRA_ORDER:
-        if key == "headers":
-            result[key] = None
-            continue
-
-        if key == "downloadSettings":
-            result[key] = None
-            continue
-
-        if key == "extra":
-            result[key] = None
-            continue
-
-        if key not in extra:
-            continue
-
-        if key == "xmux":
-            xmux = extra[key]
-
-            if isinstance(xmux, dict):
-                xmux_result = {}
-
-                for xmux_key in XMUX_ORDER:
-                    if xmux_key in xmux:
-                        xmux_result[xmux_key] = xmux[xmux_key]
-
-                result[key] = xmux_result
-            else:
-                result[key] = xmux
-
-            continue
-
-        result[key] = extra[key]
-
-    return result
 
 
 def parse_vless(line):
@@ -215,7 +121,25 @@ def get_security(pairs):
     return values[0]
 
 
+def has_extra(pairs):
+    """
+    Возвращает True, если в VLESS-строке присутствует
+    параметр extra.
+
+    Строка с extra отбрасывается полностью,
+    независимо от содержимого extra.
+    """
+    return any(
+        name.lower() == "extra"
+        for name, _ in pairs
+    )
+
+
 def sanitize(parsed, pairs):
+    # Полностью отбрасываем VLESS-строки с параметром extra.
+    if has_extra(pairs):
+        return None
+
     security = get_security(pairs)
 
     if security is None:
@@ -239,26 +163,7 @@ def sanitize(parsed, pairs):
             if name == key
         ]
 
-        if key != "extra":
-            result.extend(matching)
-            continue
-
-        for name, value in matching:
-            extra = parse_extra(value)
-
-            if extra is None:
-                continue
-
-            result.append(
-                (
-                    "extra",
-                    json.dumps(
-                        extra,
-                        ensure_ascii=False,
-                        separators=(",", ":")
-                    )
-                )
-            )
+        result.extend(matching)
 
     username = parsed.username
     hostname = parsed.hostname
