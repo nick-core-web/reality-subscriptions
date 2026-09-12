@@ -22,13 +22,6 @@ WHITELIST = {
     "mode",
     "authority",
     "serviceName",
-    "mtu",
-    "tti",
-    "uplinkCapacity",
-    "downlinkCapacity",
-    "congestion",
-    "readBufferSize",
-    "writeBufferSize",
 }
 
 
@@ -49,18 +42,10 @@ OUTPUT_ORDER = [
     "mode",
     "authority",
     "serviceName",
-    "mtu",
-    "tti",
-    "uplinkCapacity",
-    "downlinkCapacity",
-    "congestion",
-    "readBufferSize",
-    "writeBufferSize",
 ]
 
 
 SUPPORTED_SECURITY = {
-    "tls",
     "reality",
 }
 
