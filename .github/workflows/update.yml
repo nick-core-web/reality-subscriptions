@@ -26,14 +26,6 @@ jobs:
             -o raw_bl.txt "$SRC_2" \
             -o raw_wl.txt "$SRC_3" \
             -o raw_bypass.txt "$SRC_4"
- 
-      - name: Filter Subs
-        run: |
-          python3 -c "import sys, urllib.parse; [print(l) for l in sys.stdin.read().splitlines() if urllib.parse.parse_qs(urllib.parse.urlparse(l).query).get('security') == ['reality']]" < raw_vless.txt > reality.txt || true
-          python3 -c "import sys, urllib.parse; [print(l) for l in sys.stdin.read().splitlines() if urllib.parse.parse_qs(urllib.parse.urlparse(l).query).get('security') == ['reality']]" < raw_bl.txt > bl.txt || true
-          python3 -c "import sys, urllib.parse; [print(l) for l in sys.stdin.read().splitlines() if urllib.parse.parse_qs(urllib.parse.urlparse(l).query).get('security') == ['reality']]" < raw_wl.txt > wl.txt || true
-          python3 -c "import sys, urllib.parse; [print(l) for l in sys.stdin.read().splitlines() if urllib.parse.parse_qs(urllib.parse.urlparse(l).query).get('security') == ['reality']]" < raw_bypass.txt > bypass.txt || true
-          cat reality.txt bl.txt wl.txt bypass.txt > all_reality.txt
       
       - name: Create sanitized TLS and Reality files
         run: |
@@ -41,20 +33,20 @@ jobs:
 
           python3 scripts/sanitize_vless.py \
             raw_vless.txt \
-            vless_clean.txt
+            reality.txt
 
           python3 scripts/sanitize_vless.py \
             raw_bl.txt \
-            bl_clean.txt
+            bl.txt
 
           python3 scripts/sanitize_vless.py \
             raw_wl.txt \
-            wl_clean.txt
+            wl.txt
 
           python3 scripts/sanitize_vless.py \
             raw_bypass.txt \
-            bypass_clean.txt
-          cat vless_clean.txt bl_clean.txt wl_clean.txt bypass_clean.txt > all_clean.txt
+            bypass.txt
+          cat reality.txt bl.txt wl.txt bypass.txt > all.txt
 
       - name: Remove raw subscriptions
         run: |
