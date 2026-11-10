@@ -92,7 +92,6 @@ XMUX_ORDER = [
 
 
 SUPPORTED_SECURITY = {
-    "tls",
     "reality",
 }
 
