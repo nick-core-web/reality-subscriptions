@@ -1,1 +1,1 @@
-vless://07f44dd0-553e-4eb0-afc2-5a00c4d7c20c@210.109.205.7:20443?security=reality&type=tcp&flow=xtls-rprx-vision&sni=www.microsoft.com&fp=chrome&pbk=PHpqBxSY5_595NSIjNKtBY1lyQz3rojxgvcVypn_tBk&sid=6f3a9c1d4b7e2058#%F0%9F%87%B0%F0%9F%87%B7%20South%20Korea%2C%20Gwacheon-si%20%28Gwacheon-daero%29%20%7C%20%5BBL%5D
+vless://e38111aa-f62a-46ad-a538-6f3003f2f43d@185.255.95.131:11738?security=reality&type=tcp&flow=xtls-rprx-vision&sni=www.asus.com&fp=chrome&pbk=DqPCXKIPN4NDurylwyVdPsaW9V1uYktHSon4n2Kb1y8&sid=7815104c#%F0%9F%87%B9%F0%9F%87%B7%20Turkey%2C%20Sultanbeyli%20%7C%20%5BBL%5D
