@@ -1,1 +1,1 @@
-vless://91d2a8f3-6eb0-4b6a-a8f7-0beabcf06fb7@8.220.198.29:443?security=reality&flow=xtls-rprx-vision&sni=www.cloudflare.com&fp=firefox&pbk=8hnBOcqsETW6u3TchfqlE0Y7wZ002v60fPlFM1qrww4&sid=ad9e6079#%F0%9F%87%B0%F0%9F%87%B7%20South%20Korea%2C%20Yongsan-dong%20%7C%20%5BBL%5D
+vless://ead3595f-4020-4e76-a3ec-c248e1a2f2f7@free.fugui.lol:47396?security=reality&type=raw&flow=xtls-rprx-vision&sni=swdist.apple.com&fp=ios&pbk=IjWYbHNrZb3UCQxsTJyekEOA3tHq42L6Jw3O8MmLYVQ&sid=fa514b83#%F0%9F%87%AD%F0%9F%87%B0%20Hong%20Kong%2C%20Hong%20Kong%20%7C%20%5BBL%5D
